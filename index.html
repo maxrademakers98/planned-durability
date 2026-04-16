@@ -1002,7 +1002,9 @@ footer {
 .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* MOBILE */
+/* ── TABLET (600px – 900px) ─────────────────────────────────────────────────── */
 @media (max-width: 900px) {
+  /* Nav */
   nav { padding: 0 1.5rem; }
   .nav-hamburger { display: flex; }
   nav ul {
@@ -1038,18 +1040,26 @@ footer {
   /* Hero */
   #hero { grid-template-columns: 1fr; }
   .hero-right { display: none; }
-  .hero-left { padding: 4rem 1.5rem; border-right: none; }
-
-  /* Grids → single column */
-  .why-header, .leg-strip, .service-grid, .outcomes-grid,
-  .case-layout, .contact-layout, .stat-row, .pillar-row { grid-template-columns: 1fr; }
+  .hero-left { padding: 4rem 2rem; border-right: none; }
 
   /* Section padding */
-  .s-inner { padding: 2.5rem 1.25rem; }
-  .leg-strip { padding: 2rem 1.25rem; }
+  .s-inner { padding: 3rem 2rem; }
+  .leg-strip { padding: 2rem; }
+
+  /* Tablet: keep 2-column for service/outcome cards */
+  .service-grid { grid-template-columns: repeat(2, 1fr); }
+  .service-card:nth-child(2n) { border-right: none; }
+  .service-card:nth-child(3n) { border-right: 1px solid rgba(45,90,78,0.12); }
+  .outcomes-grid { grid-template-columns: repeat(2, 1fr); }
+  .outcome-card:nth-child(2n) { border-right: none; }
+  .outcome-card:nth-child(3n) { border-right: 1px solid rgba(45,90,78,0.12); }
+
+  /* Full-width grids */
+  .why-header, .leg-strip, .case-layout,
+  .contact-layout, .stat-row, .pillar-row { grid-template-columns: 1fr; }
 
   /* Stats */
-  .stat-big { font-size: 2.8rem; }
+  .stat-big { font-size: 3.2rem; }
   .stat-cell { border-right: none; border-bottom: 1px solid rgba(45,90,78,0.12); padding: 1.5rem 0; }
   .stat-cell:last-child { border-bottom: none; }
 
@@ -1057,29 +1067,65 @@ footer {
   .pillar { border-right: none; border-bottom: 1px solid rgba(45,90,78,0.12); }
   .pillar:last-child { border-bottom: none; }
 
-  /* Service & outcome cards */
-  .service-card, .outcome-card { border-right: none; }
-
   /* Images */
   img { max-width: 100%; height: auto; }
   .case-img-bot { width: 100%; }
 
   /* Footer */
-  footer { grid-template-columns: 1fr; height: auto; padding: 1.5rem; gap: 0.5rem; }
+  footer { grid-template-columns: 1fr; height: auto; padding: 1.5rem 2rem; gap: 0.5rem; }
   .foot-col { border: none; padding: 0; height: auto; }
 
   /* Form */
   .form-row { grid-template-columns: 1fr; }
 
-  /* Bump tiny fonts to readable size */
-  .s-num, .hero-tag, .stat-src, .pillar-num, .service-card .s-eyebrow,
-  .ticker-item, .s-eyebrow { font-size: 0.68rem; }
+  /* Readable tiny fonts */
+  .s-num, .hero-tag, .stat-src, .pillar-num, .ticker-item, .s-eyebrow { font-size: 0.68rem; }
 }
 
-/* Disable custom cursor on touch devices */
+/* ── MOBILE (≤ 600px) ───────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  /* Section header: hide vertical number label, simplify layout */
+  .s-head { grid-template-columns: 1fr; }
+  .s-num { display: none; }
+  .s-inner { padding: 2rem 1.25rem; }
+  .leg-strip { padding: 1.5rem 1.25rem; }
+
+  /* Hero */
+  .hero-left { padding: 3rem 1.25rem 2.5rem; }
+  h1 { font-size: clamp(2.6rem, 10vw, 3.5rem); }
+  .hero-stat-cluster { position: static; margin-top: 2rem; }
+
+  /* All grids → single column */
+  .service-grid, .outcomes-grid { grid-template-columns: 1fr; }
+  .service-card, .outcome-card { border-right: none; border-bottom: 1px solid rgba(45,90,78,0.12); }
+  .service-card:last-child, .outcome-card:last-child { border-bottom: none; }
+  .service-card:nth-child(3n) { border-right: none; }
+
+  /* Stats */
+  .stat-big { font-size: 2.4rem; }
+  .stat-row { gap: 0; }
+
+  /* Case image: remove hardcoded height */
+  .case-img-wrap img[style*="height:480px"],
+  .case-img-wrap img { height: auto !important; max-height: 280px; object-fit: cover; width: 100%; }
+
+  /* Contact */
+  .contact-left, .contact-right { padding: 0; }
+
+  /* Footer */
+  footer { padding: 1.5rem 1.25rem; }
+
+  /* Lightbox close button — bigger touch target */
+  .lb-close { top: 1rem; right: 1rem; width: 2.5rem; height: 2.5rem; font-size: 1.4rem; }
+
+  /* Nav */
+  nav { padding: 0 1.25rem; }
+}
+
+/* ── NO CUSTOM CURSOR ON TOUCH DEVICES ──────────────────────────────────────── */
 @media (hover: none) and (pointer: coarse) {
-  body { cursor: auto; }
-  .cursor, .cursor-ring { display: none; }
+  body { cursor: auto !important; }
+  .cursor, .cursor-ring { display: none !important; }
 }
 
 /* ── Image icon reveal ─────────────────────────── */
