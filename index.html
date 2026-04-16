@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Planned Durability</title>
+<link rel="icon" type="image/jpeg" href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABAAEADASIAAhEBAxEB/8QAGwABAAMBAQEBAAAAAAAAAAAAAAQFBgcDAgH/xAAyEAABBAEDAgMGBQUAAAAAAAABAAIDBBEFITESQVEGEyIyYXGBkRRCUqGxwdHw8f/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABcRAQEBAQAAAAAAAAAAAAAAAAABERD/2gAMAwEAAhEDEQA/AOk1nHU9QpyVLleOeF+OWONgIPBHzCrWy7LX+k5jSPVh8D90t1LV8LSM9+1Mxj2wODXtAJIduOPwXJ5tdykjn7tFrD0Ac4gn3XPuzeqqNTi2Fkxjxha57SwtA3IIDiCfQFHVcxU1Cj5eY6hLCXB3lSt2nEEHbuN/wDLnJdqFyRzpLtl7j1L5XE/NVC7G0bKmfaU0kVSxTvQTwxQxTSvllMchIYPLAO52B3GSOFpdk1Q2NHxtnm3tWZGMle0bbE7lvHodlVBERBg6rp9a3Sm8+pWsMLQSYJmvAB6bjce4KzYrTWLMUEbZXuke1jBHG55JJAAGw36rrms6dNZ0y3XZBO98kfK1rIiT6/8BV7stbbo7IqyOrVXhzImAc/a4nf5LyvkIiICIiAiIgIiIP/2Q==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syne+Mono&display=swap" rel="stylesheet">
 <style>
@@ -1607,46 +1608,30 @@ footer {
 
 
   // Contact form
-  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    const status = document.getElementById('formStatus');
     const name = this.name.value.trim();
     const email = this.email.value.trim();
     const phone = this.phone.value.trim();
     const message = this.message.value.trim();
 
-    btn.disabled = true;
-    btn.textContent = 'Sending\u2026';
-    status.style.display = 'none';
+    const bodyLines = [
+      'Name: ' + name,
+      'Email: ' + email,
+    ];
+    if (phone) bodyLines.push('Phone: ' + phone);
+    bodyLines.push('', 'Message:', message);
 
-    try {
-      const res = await fetch('/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, message, _trap: this._trap.value }),
-      });
-      const data = await res.json();
-      if (data.ok) {
-        this.reset();
-        btn.style.display = 'none';
-        status.style.display = 'block';
-        status.style.color = 'var(--green)';
-        status.textContent = '\u2713 Message sent \u2014 I\u2019ll be in touch soon.';
-      } else {
-        btn.disabled = false;
-        btn.textContent = 'Send message \u2192';
-        status.style.display = 'block';
-        status.style.color = '#c0392b';
-        status.textContent = data.error || 'Something went wrong. Please try again.';
-      }
-    } catch {
-      btn.disabled = false;
-      btn.textContent = 'Send message \u2192';
-      status.style.display = 'block';
-      status.style.color = '#c0392b';
-      status.textContent = 'Could not connect. Please try again.';
-    }
+    const mailtoUrl = 'mailto:max@planneddurability.nl'
+      + '?subject=' + encodeURIComponent('New enquiry \u2014 Planned Durability')
+      + '&body=' + encodeURIComponent(bodyLines.join('\n'));
+
+    window.location.href = mailtoUrl;
+
+    const status = document.getElementById('formStatus');
+    status.style.display = 'block';
+    status.style.color = 'var(--green)';
+    status.textContent = '\u2713 Opening your email client\u2026';
   });
 })();
 
